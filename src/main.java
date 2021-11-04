@@ -5,8 +5,9 @@ public class main extends Server {
 		m.start();
 	}
 	@Override
-	byte[] main(String req) {
+	byte[] main(String req,byte[] body) {
 		byte[] response = "".getBytes();
+		// addedResHeaders = "CUSTOMHEADER\r\nANOTHERCUSTOMHEADER\r\n"; 
 		// ENTER SOME CODE HERE IF YOU WANT TO GO DYNAMIC!
 		return response;
 	}

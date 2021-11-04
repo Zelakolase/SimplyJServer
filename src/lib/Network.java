@@ -24,12 +24,12 @@ public class Network {
     /*
      * HTTP Write Response Function
      */
-    public static void write(DataOutputStream s, byte[] res, String content, String S,boolean gzip) {
+    public static void write(DataOutputStream s, byte[] res, String content, String S,boolean gzip,String addedResHeaders) {
         try {
-            if (gzip)
-                res = compress(res);
+            if (gzip) res = compress(res);
             s.write((S + "\r\n").getBytes());
             s.write("Server: SimplyJServer 1.0\r\n".getBytes());
+            s.write((addedResHeaders).getBytes());
             s.write(("Connection: close\r\n").getBytes());
             if (gzip)
                 s.write("Content-Encoding: gzip\r\n".getBytes());
@@ -52,10 +52,16 @@ public class Network {
      */
     public static ArrayList<Byte> read(DataInputStream s,int MAX_REQ_SIZE) {
         ArrayList<Byte> result = new ArrayList<Byte>();
+        int byteCounter = 0;
         try {
             do {
+            	if(byteCounter <= MAX_REQ_SIZE*1000) {
                 result.add(s.readByte());
-            } while (s.available() <= MAX_REQ_SIZE*1000 && s.available() > 0);
+                byteCounter ++;
+            	}else {
+            		break;
+            	}
+            } while (s.available() > 0);
         } catch (IOException e) {
 
         }

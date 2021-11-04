@@ -24,6 +24,7 @@ public class SparkDB {
             String temp_1 = "";
             String temp_0 = "";
             while ((line = br.readLine()) != null) {
+            	if(line.startsWith("COMMENT")) continue;
                 if (!headerisprocessed) {
                     header = line.split("\",\""); // ","
                     temp_1 = header[header.length - 1].substring(0, header[header.length - 1].length() - 1);
@@ -101,7 +102,11 @@ public class SparkDB {
         return Mapper.get(ColToFind).get(Mapper.get(FromCol).indexOf(ColVal));
 
     }
-
+    public boolean ifExists(String Col, String Val) {
+    	boolean state = false;
+    	if(Mapper.get(Col).contains(Val)) state = true;
+    	return state;
+    }
     void zero() {
         num_queries = 0;
         num_header = 0;
