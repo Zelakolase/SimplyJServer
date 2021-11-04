@@ -136,13 +136,13 @@ public abstract class Server {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			List<byte[]> headerPost = tokens(baos.toByteArray(),new byte[] {13, 10, 13, 10}); // split using \r\n
-			String o = new String(headerPost.get(0));			
+			}			
 			/*
 			 * If we're on dynamic mode, go and read output from main(..) Else, go static!
 			 */
 			if (dynamic) {
+				List<byte[]> headerPost = tokens(baos.toByteArray(),new byte[] {13, 10, 13, 10}); // split using \r\n
+				String o = new String(headerPost.get(0));
 				Network.write(DOS, main(o,headerPost.get(1)), defaultResponseMIME, defaultResponseCode,gzip,addedResHeaders);
 			} else {
 				String path = o.split("\r\n")[0].split(" ")[1];
